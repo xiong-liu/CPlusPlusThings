@@ -1,53 +1,29 @@
-﻿#include <iostream>
-
-using namespace std;
-
-class Base1
-{
-  public:
-    Base1() : value(10) {}
-    virtual ~Base1() {}
-    void test1() { cout << "Base test1..." << endl; }
-
-  protected:  // 保护
-    int value;
-};
-// 默认为私有继承
-class Derived1 : Base1
-{
-  public:
-    void test2() { cout << "value is " << value << endl; }
-};
-
+﻿//.h
 class Base
 {
   public:
-    Base() : value(20) {}
-    virtual ~Base() {}
-    void test1() { cout << "Base test1..." << endl; }
+    int base_public = 1;
+    void func1();
 
-  private:  //私有
-    int value;
+  protected:
+    int base_protect = 2;
+    void func2();
+
+  private:
+    int base_private = 3;
+    void func3();
 };
 
-/**
- * 子类对父类成员的访问权限跟如何继承没有任何关系，
- * “子类可以访问父类的public和protected成员，不可以访问父类的private成员”——这句话对任何一种继承都是成立的。
- *
- */
-class Derived : Base
+class Derive1 : private Base  //私有继承
 {
   public:
-    using Base::value;
-    void test2() { cout << "value is " << value << endl; }
+    //在public作用域声明基类中的成员
+    using Base::base_public;  //成功，基类公有->派生类公有
+    using Base::func1;        //成功，基类公有->派生类公有
+    using Base::func2;        //成功，基类保护->派生类公有
+  protected:
+    using Base::base_protect;  //成功，基类保护->派生类保护
+    using Base::func3;  //错误，基类私有->派生类保护；编译器报错 , 不可访问
+  private:
+    using Base::base_private;  // 错误, 基类私有->派生类私有；编译器报错 , 不可访问
 };
-
-int main()
-{
-    Derived1 d1;
-    d1.test2();
-
-    Derived d;
-    d.test2();
-    return 0;
-}

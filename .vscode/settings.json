@@ -7,7 +7,8 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/CMakeFiles/**": true,
-        "**/build/**": true
+        "**/build/**": true,
+        "**/.cache/**" : true
     },
     "C_Cpp.clang_format_fallbackStyle": "Chromium",
     "clang-format.fallbackStyle": "Chromium"
